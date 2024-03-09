@@ -1,0 +1,21 @@
+﻿@model List<Shopping.Models.PostModel>
+
+@foreach (var item in Model)
+{
+    <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="blog__item">
+            <div class="blog__item__pic">
+                <img src="~/images/posts/@item.Thumb" alt="false">
+            </div>
+            <div class="blog__item__text">
+                <ul>
+                    <li><i class="fa fa-calendar-o"></i>@item.DateCreated.Value.ToShortDateString()</li>
+                </ul>
+                <h5><a href="#">@item.Title</a></h5>
+                <p>
+                    @item.Title
+                </p>
+            </div>
+        </div>
+    </div>
+}

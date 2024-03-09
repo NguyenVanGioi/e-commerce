@@ -1,0 +1,46 @@
+﻿@model Shopping.Models.ViewModels.OrderDetailsViewModel
+
+<!-- Add your HTML structure for displaying order details here -->
+
+<div class="container">
+    <h2>Chi tiết đơn hàng</h2>
+    <br />
+    <br />
+
+    <div>
+        <strong>Mã đơn hàng:</strong> @Model.Order.OrderCode
+       
+    </div>
+    <div>
+        <strong>Ngày đặt:</strong> @Model.Order.OrderDate
+    </div>
+    <div>
+        <strong>Địa chỉ giao hàng:</strong> @Model.Order.Address.AddressOrder
+    </div>
+    <!-- Hiển thị thông tin đơn hàng -->
+
+    <div class="row">
+        @foreach (var orderDetail in Model.OrderDetails)
+        {
+            <div class="col-lg-12 mb-4 p-3 border">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <!-- Hình ảnh sản phẩm -->
+                        <img src="~/images/products/@orderDetail.Product.Thumb" style="width:100px; height:100px" />
+                    </div>
+                    <div class="col-lg-8">
+                        <!-- Thông tin sản phẩm -->
+                        <div>
+                            <div>Tên sản phẩm: @orderDetail.Product.Name &ensp;&ensp;x @orderDetail.Quantity</div>
+                            <div>Tổng tiền: @orderDetail.Total.Value.ToString("#,##0") VND</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        <a asp-controller="Order" asp-action="Index" class="btn btn-primary">Quay lại danh sách đơn hàng</a>
+    </div>
+</div>

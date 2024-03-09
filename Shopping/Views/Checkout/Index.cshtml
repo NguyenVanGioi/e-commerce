@@ -1,0 +1,96 @@
+﻿@using Shopping.Models.ViewModels
+@model CartItemViewModel
+
+<partial name="_Notifycation" />
+
+<section class="checkout spad">
+    <div class="container">
+
+        <div class="checkout__form">
+            <h4>Billing Details</h4>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <form asp-area="" asp-controller="Checkout" asp-action="Checkout" method="post">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="checkout__input">
+                            <p>FullName<span>*</span></p>
+                            <input asp-for="FullName" type="text" placeholder="Full Name" class="checkout__input__add">
+                            <span asp-validation-for="FullName" class="text-danger" />
+
+                        </div>
+                        <div class="checkout__input">
+                            <p>Address<span>*</span></p>
+                            <input asp-for="AddressOrder" type="text"  placeholder="Street Address" class="checkout__input__add">
+                            <span asp-validation-for="AddressOrder" class="text-danger" />
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Phone<span>*</span></p>
+                                    <input asp-for="Phone" type="text" placeholder="Phone" class="checkout__input__add">
+                                    <span asp-validation-for="Phone" class="text-danger" />
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Email<span>*</span></p>
+                                    <input asp-for="Email" type="text" placeholder="Email" class="checkout__input__add">
+                                    <span asp-validation-for="Email" class="text-danger" />
+
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="checkout__order">
+                            <h4>Your Order</h4>
+                            <!-- Các sản phẩm trong giỏ hàng -->
+                            @if (Model != null && Model.GrandTotal.HasValue)
+                            {
+                                <!-- Hiển thị thông tin giỏ hàng -->
+                                <div class="checkout__order__products">Products <span>Total</span></div>
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <ul>
+                                        <li>
+                                            * @item.Name <span>
+                                                @Model.CartItems.Where(x => x.Id == item.Id).Sum(x => x.Quantity * x.Price).Value.ToString("#,##0")
+                                            </span>
+                                        </li>
+                                    </ul>
+                                }
+                                <br />
+                                <div class="checkout__order__total">
+                                    Total <span>
+                                        @Model.GrandTotal.Value.ToString("#,##0") VND
+                                    </span>
+                                </div>
+                                <!-- Nút thanh toán -->
+                                <button  class="primary-btn" type="submit" name="paymentMethod" value="Thanh toán COD">Thanh toán COD</button>
+                                <button class="primary-btn" type="submit" name="paymentMethod" value="Thanh toán VNPAY">Thanh toán VNPAY</button>
+                            }
+                            else
+                            {
+                                <!-- Hiển thị thông báo giỏ hàng trống hoặc thông báo khác -->
+                                <p>Your cart is empty.</p>
+                            }
+
+                            <!-- Nút thanh toán -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+
+}

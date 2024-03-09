@@ -1,0 +1,82 @@
+﻿@model Shopping.Models.PostModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Thông tin bài viết</h4>
+        <div class="table-responsive">
+            <table class="product-info-table m-t-20">
+                <tbody>
+                    <tr>
+                        <td>ID:</td>
+                        <td class="text-dark font-weight-semibold">@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td>Tiêu đề:</td>
+                        <td>@Model.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Alias</th>
+                        <td>@Model.Alias</td>
+                    </tr>
+
+                    <tr>
+                        <td>Nội dung:</td>
+                        <td>
+                            @Html.Raw(Model.Contents)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Ảnh:</td>
+                        <td><img width="200" height="200" src="~/images/posts/@Model.Thumb" alt="false" /></td>
+
+                    </tr>
+                    <tr>
+                        <td>Publish: </td>
+                        <td>
+                            @if (Model.Published)
+                            {
+                                <div class="switch m-r-10">
+                                    <input type="checkbox" id="switch-1" checked="" disabled>
+                                    <label for="switch-1"></label>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="switch m-r-10">
+                                    <input type="checkbox" id="switch-2" disabled>
+                                    <label for="switch-2"></label>
+                                </div>
+                            }
+                        </td>
+
+
+                    </tr>
+                    <tr>
+                        <th>Ngày tạo</th>
+                        <td>@Model.DateCreated</td>
+                    </tr>
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">
+        <i class="fa fa-pencil" style="font-size:24px;color:chocolate"> Edit</i>
+    </a>   
+    <a class="btn btn-primary" asp-action="Index">
+        <i class="fa fa-backward" style="font-size:24px;">
+            Back to List
+        </i>
+    </a>
+</div>
+

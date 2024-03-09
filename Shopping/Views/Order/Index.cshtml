@@ -1,0 +1,120 @@
+﻿@model List<Shopping.Models.ViewModels.OrderDetailsViewModel>
+
+<partial name="_Notifycation" />
+
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            @if (Model.Any())
+            {
+
+                @foreach (var orderViewModel in Model)
+                {
+                    <h5 class="ml-auto">@orderViewModel.Order.TransactStatus.Description</h5>
+
+                    <div class="col-lg-12 mb-4 p-3 border">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                @foreach (var orderDetail in orderViewModel.OrderDetails)
+                                {
+                                    <img src="~/images/products/@orderDetail.Product.Thumb" style="width:100px; height:100px; margin-bottom: 10px" />
+                                }
+                            </div>
+
+                            <div class="col-lg-8">
+                                <div>Mã Đơn hàng: @orderViewModel.Order.OrderCode</div>
+                                <div>Ngày đặt: @orderViewModel.Order.OrderDate</div>
+
+                                @foreach (var orderDetail in orderViewModel.OrderDetails)
+                                {
+                                    <div>
+                                        <div>Tên sản phẩm: @orderDetail.Product.Name &ensp;&ensp;x @orderDetail.Quantity</div>
+                                        <div>Tổng tiền: @orderDetail.Total.Value.ToString("#,##0") VND</div>
+                                    </div>
+
+                                }
+                                <div class="btn btn-warning">
+                                    <h2>
+                                        Thành tiền: @orderViewModel.OrderDetails.Sum(od => od.Total).Value.ToString("#,##0") VND
+                                    </h2>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <div class="mb-2">
+                                    <a asp-controller="Order" asp-area="" asp-action="ViewOrder" asp-route-Id="@orderViewModel.Order.Id" class="btn btn-primary btn-block">Xem chi tiết</a>
+                                </div>
+                                <div>
+                                    <a asp-controller="Order" asp-area="" asp-action="Delete" asp-route-Id="@orderViewModel.Order.Id" class="btn btn-danger btn-block" onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">Hủy đơn hàng</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            }
+            else
+            {
+                <div class="col-lg-12 text-center">
+                    <h2>Không có đơn hàng nào.</h2>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .product__details__pic__item img {
+        min-width: 20%;
+    }
+
+    .product__details__pic__item {
+        min-width: 20%;
+    }
+
+</style>
+
+@* @model List<Shopping.Models.ViewModels.OrderDetailsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Đơn hàng đã mua</h2>
+    @foreach (var orderViewModel in Model)
+    {
+        <div>
+            <h4>Đơn hàng # @orderViewModel.Order.Id</h4>
+            <p>Ngày đặt: @orderViewModel.Order.OrderDate</p>
+            <!-- Thêm các thông tin khác của đơn hàng cần hiển thị -->
+
+            <h5>Chi tiết đơn hàng:</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderDetail in orderViewModel.OrderDetails)
+                    {
+                        <tr>
+                            <td>@orderDetail.Id</td>
+                            <td>@orderDetail.Product.Name</td>
+                            <td>@orderDetail.Quantity</td>
+                            <td>@orderDetail.Total</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <hr />
+    }
+</div> *@

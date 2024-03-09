@@ -1,0 +1,153 @@
+﻿@using X.PagedList.Mvc.Core
+
+@model X.PagedList.IPagedList<Shopping.Models.OrderModel>
+@{
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<div class="row">
+
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+
+
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> ID </th>
+                                <th>Mã đơn hàng</th>
+                                <td>Ngày đặt</td>
+                                <td>Khách hàng</td>
+
+                                <td>Địa chỉ nhận hàng</td>
+                                <td>Trạng thái đơn hàng</td>
+                                <td>#</td>
+                            </tr>
+                        </thead>
+                        <tbody id="records-table">
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+
+                                            @item.Id
+
+                                        </td>
+                                        <td style="max-width: 700px; height: 100px; overflow: hidden; white-space: normal;">
+
+                                            @item.OrderCode
+
+                                        </td>
+
+                                        <td> @item.OrderDate </td>
+                                        <td> @item.User.UserName</td>
+
+                                        <td>@item.Address.AddressOrder</td>
+                                        <td>
+                                            @item.TransactStatus.Description
+                                        </td>
+                                        <td>
+                                            <a asp-area="Admin" asp-controller="Orders" asp-action="Details" asp-route-id="@item.Id">
+                                                <i class="fa fa-eye" style="font-size:24px"></i>
+                                            </a>
+
+                                            <!-- Edit icon -->
+                                            <a asp-area="Admin" asp-controller="Orders" asp-action="Edit" asp-route-id="@item.Id">
+                                                <i class="fa fa-pencil" style="font-size:24px;color:chocolate; margin-left:5px;margin-right:5px"></i>
+                                            </a>
+
+
+                                        </td>
+
+
+
+                                    </tr>
+
+                                }
+                            }
+                           
+                           
+                        </tbody>
+
+
+
+                    </table>
+                  
+
+                    <div aria-label="Page navigation example" class="text-center">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new X.PagedList.Web.Common.PagedListRenderOptions { Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded })
+                    </div>
+
+
+
+                </div>
+               
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .custom-select-extended {
+        height: calc(100%);
+        border-color: blanchedalmond;
+    }
+
+</style>
+<style>
+    .pagination-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #0099FF;
+            cursor: pointer;
+        }
+
+        .pagination a {
+            background-color: #fff;
+        }
+
+        .pagination span {
+            background-color: deepskyblue;
+            color: black;
+        }
+
+
+        .pagination .disabled {
+            pointer-events: none;
+            background-color: #ddd;
+            color: #999;
+        }
+</style>

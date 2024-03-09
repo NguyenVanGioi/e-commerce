@@ -1,0 +1,105 @@
+﻿@model Shopping.Models.PostModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<PostModel> Baivietlienquan = ViewBag.Baivietlienquan;
+}
+
+<section class="blog spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-5">
+                <div class="blog__sidebar">
+                    <div class="blog__sidebar__item">
+                        <h4>Tin tức liên quan</h4>
+                        <div class="blog__sidebar__recent">
+
+                            @if (Baivietlienquan != null && Baivietlienquan.Count > 0)
+                            {
+                                foreach (var item in Baivietlienquan)
+                                {
+                                    <a asp-area="" asp-controller="Post" asp-action="Details" asp-route-id="@item.Id" class="blog__sidebar__recent__item">
+                                        <div class="blog__sidebar__recent__item__pic">
+                                            <img src="~/images/posts/@item.Thumb" height="50px" alt="">
+                                        </div>
+                                        <div class="blog__sidebar__recent__item__text">
+                                            <h6>@item.Title<br /> Protect The Liver</h6>
+                                            <span>@item.DateCreated.Value.ToShortDateString()</span>
+                                        </div>
+                                    </a>
+                                }
+                            }
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7 order-md-1 order-1">
+                <div class="blog__details__text">
+                    <h3>
+                        @Model.Title
+                    </h3>
+                    <img src="~/images/posts/@Model.Thumb" width="800px" height="400" alt="">
+
+                    <p>@Html.Raw(Model.Contents)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#Contents'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            $('.summernote').summernote({
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+                styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                height: 400px,
+                minHeight: null,
+                maxHeight: null,
+                focus: true
+
+            });
+        });
+    </script>
+}
+<!-- Blog Details Section Begin -->
+<!-- Blog Details Section End -->
+<!-- Related Blog Section Begin -->
+@* <div class="response-area">
+		<h2>Bài viết liên quan</h2>
+
+		@if (Baivietlienquan != null && Baivietlienquan.Count > 0)
+		{
+			foreach (var item in Baivietlienquan)
+			{
+				<ul class="media-list">
+					<li class="media">
+						<a asp-area="" asp-controller="Blog" asp-action="Details" asp-route-id="@item.PostId" class="pull-left">
+							<img class="media-object" src="~/images/news/@item.Thumb" alt="false">
+						</a>
+						<div class="media-body">
+							<ul class="sinlge-post-meta">
+								<li><i class="fa fa-calendar"></i>@item.CreatedDate.Value.ToShortDateString()</li>
+							</ul>
+							<p>@item.Title</p>
+
+						</div>
+					</li>
+				</ul>
+			}
+		}
+	</div> *@

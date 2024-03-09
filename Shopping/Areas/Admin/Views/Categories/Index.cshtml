@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Shopping.Models.CategoryModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<span style="text-decoration: none; color: black; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 16px;">
+    <a asp-area="Admin" asp-controller="Categories" asp-action="Index" style="text-decoration: none; color: black;">
+        Danh mục sản phẩm
+    </a>
+</span>
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+
+                    <div class="col-md-2 d-flex align-items-center justify-content-end">
+                        <a class="btn btn-sm btn-success" asp-area="Admin" asp-controller="Categories" asp-action="Create">Thêm danh mục</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> ID </th>
+                                <th> Danh mục </th>
+                                <th> Ảnh</th>
+                                <th> Trạng thái </th>
+                                <td>#</td>
+                            </tr>
+                        </thead>
+                        <tbody id="records-table">
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+
+                                            @item.Id
+
+                                        </td>
+
+                                        <td> @item.Name </td>
+                                        <td>
+                                            <img width="200" height="200" src="~/images/categories/@item.Thumb" />
+                                        </td>
+                                        <td>
+                                            @if (@item.Published == true)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div>Public</div>
+                                                </div>
+
+
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div>Non-Public</div>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <a asp-area="Admin" asp-controller="Categories" asp-action="Details" asp-route-id="@item.Id">
+                                                <i class="fa fa-eye" style="font-size:24px"></i>
+                                            </a>
+
+                                            <!-- Edit icon -->
+                                            <a asp-area="Admin" asp-controller="Categories" asp-action="Edit" asp-route-id="@item.Id">
+                                                <i class="fa fa-pencil" style="font-size:24px;color:chocolate; margin-left:5px;margin-right:5px"></i>
+                                            </a>
+
+                                            <!-- Delete icon -->
+                                            <a asp-area="Admin" asp-controller="Categories" asp-action="Delete" asp-route-id="@item.Id">
+                                                <i class="fa fa-trash-o" style="font-size:24px;color:red"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .custom-select-extended {
+        height: calc(100%);
+        border-color: blanchedalmond;
+    }
+
+</style>

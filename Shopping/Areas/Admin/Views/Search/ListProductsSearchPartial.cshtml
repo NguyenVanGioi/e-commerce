@@ -1,0 +1,66 @@
+﻿@model List<ProductModel>
+
+
+<div class="table-responsive">
+    <table class="table">
+        
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+
+                            @item.Id
+
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img class="img-fluid rounded" src="~/images/products/@item.Thumb" style="max-width: 60px" alt="false" />
+                                <h6>
+                                    @item.Name
+                                </h6>
+                            </div>
+                        </td>
+                        <td> @item.Category.Name </td>
+                        <td> @item.Brand.Name </td>
+
+                        <td> @item.Price.Value.ToString("#,##0") VND</td>
+                        <td> @item.UnitsInstock </td>
+                        <td>
+                            @if (@item.UnitsInstock.Value > 0)
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div>Instock</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div>Outstock</div>
+                                </div>
+                            }
+                        </td>
+                        <td>
+
+                            <a class="btn btn-sm btn-primary" asp-area="Admin" asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">View</a>
+                            <a class="btn btn-sm btn-warning" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-sm btn-danger" asp-area="Admin" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+
+                    </tr>
+
+                }
+            }
+
+
+
+        </tbody>
+
+
+
+    </table>
+
+</div>

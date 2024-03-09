@@ -1,0 +1,53 @@
+﻿@model Shopping.Models.ViewModels.OrderDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Thông tin đơn đặt</h4>
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Hình ảnh</th>
+                        <th>Số lượng</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var orderDetail in Model.OrderDetails)
+                    {
+                        <tr>
+                            <td>@orderDetail.Id</td>
+                            <td>@orderDetail.Product.Name</td>
+                            <td>
+                                <img class="img-fluid rounded" src="~/images/products/@orderDetail.Thumb" style="max-width: 60px" alt="false" />
+                            </td>
+                            <td>@orderDetail.Quantity</td>
+                            <td>@orderDetail.Total.Value.ToString("#,##0")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+             <br />
+             <br />
+            <a class="btn btn-primary" asp-action="Index">
+                <i class="fa fa-backward" style="font-size:24px;">
+                    Back to List
+                </i>
+            </a>
+
+        </div>
+        
+    </div>
+</div>
+
+

@@ -1,0 +1,311 @@
+﻿@using X.PagedList.Mvc.Core
+
+@model X.PagedList.IPagedList<Shopping.Models.ProductModel>
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+
+    ViewData["Title"] = "Index" + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<span style="text-decoration: none; color: black; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 16px;">
+    <a asp-area="Admin" asp-controller="Products" asp-action="Index" style="text-decoration: none; color: black;">
+        Danh sách sản phẩm
+    </a>
+</span>
+<div class="row">
+
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-4 d-flex align-items-center m-b-10 m-r-15">
+                        <input id="keyword" name="keyword" type="text" class="form-control" placeholder="Tìm kiếm" />
+                    </div>
+
+                    <div class="col-md-3 d-flex align-items-center m-b-10 m-r-15">
+                        <select class="custom-select custom-select-extended" id="txtCatID" name="txtCatID" style="min-width:180px" asp-items="@ViewBag.CategoryId">
+                            <option value="0">Chọn tất cả</option>
+                        </select>
+
+
+
+                    </div>
+
+                    <div class="col-md-3 d-flex align-items-center m-b-10 m-r-15">
+                        <select class="custom-select custom-select-extended" id="txtBrandID" name="txtBrandID" style="min-width:180px" asp-items="@ViewBag.BrandId">
+                            <option value="0">Chọn tất cả</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-center justify-content-end">
+                        <a class="btn btn-sm btn-success" asp-area="Admin" asp-controller="Products" asp-action="Create">Thêm sản phẩm</a>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th> ID </th>
+                                <th> Tên sản phẩm </th>
+                                <td>Hình ảnh</td>
+                                <th> Danh mục</th>
+                                <th>Thương hiệu</th>
+                                <th> Giá </th>
+                                <th> Tồn kho </th>
+                                <th>Trạng thái</th>
+                                <td>#</td>
+                            </tr>
+                        </thead>
+                        <tbody id="records-table">
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+
+                                            @item.Id
+
+                                        </td>
+                                        <td style="max-width: 700px; height: 100px; overflow: hidden; white-space: normal;">
+
+                                            @item.Name
+
+                                        </td>
+                                        <td>
+                                            <img class="img-fluid rounded" src="~/images/products/@item.Thumb" style="max-width: 60px" alt="false" />
+
+                                        </td>
+                                        <td> @item.Category.Name </td>
+                                        <td> @item.Brand.Name </td>
+
+                                        <td> @item.Price.Value.ToString("#,##0") VND</td>
+                                        <td> @item.UnitsInstock </td>
+                                        <td>
+                                            @if (@item.UnitsInstock.Value > 0)
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div>Instock</div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-flex align-items-center">
+                                                    <div>Outstock</div>
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <a asp-area="Admin" asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                                                <i class="fa fa-eye" style="font-size:24px"></i>
+                                            </a>
+
+                                            <!-- Edit icon -->
+                                            <a asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">
+                                                <i class="fa fa-pencil" style="font-size:24px;color:chocolate; margin-left:5px;margin-right:5px"></i>
+                                            </a>
+
+                                            <!-- Delete icon -->
+                                            <a asp-area="Admin" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">
+                                                <i class="fa fa-trash-o" style="font-size:24px;color:red"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            }
+
+
+
+                        </tbody>
+
+
+
+                    </table>
+
+                    <br />
+
+                    <div aria-label="Page navigation example" class="text-center">
+                        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new X.PagedList.Web.Common.PagedListRenderOptions { Display = X.PagedList.Web.Common.PagedListDisplayMode.IfNeeded })
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .custom-select-extended {
+        height: calc(100%);
+        border-color: blanchedalmond;
+    }
+
+</style>
+<style>
+    .pagination-container {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #0099FF;
+            cursor: pointer;
+        }
+
+        .pagination a {
+            background-color: #fff;
+        }
+
+        .pagination span {
+            background-color: deepskyblue;
+            color: black;
+        }
+
+
+        .pagination .disabled {
+            pointer-events: none;
+            background-color: #ddd;
+            color: #999;
+        }
+</style>
+
+
+
+@section Scripts {
+    <script>
+        //filtter
+        $(document).ready(function () {
+            jQuery("#txtCatID").change(function () {
+                var catID = jQuery(this).children(":selected").attr("value");
+                catID = parseFloat(catID);
+                $('#txtCatID option')
+                    .removeAttr('selected');
+                $("#txtCatID > [value=" + catID + "]").attr("selected", "true");
+
+
+                $.ajax({
+                    url: '/Admin/Products/Filtter',
+                    dataType: "json",
+                    type: "GET",
+                    data: {
+                        CatID: catID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            jQuery("#txtBrandID").change(function () {
+                var brandID = jQuery(this).children(":selected").attr("value");
+                brandID = parseFloat(brandID);
+                $('#txtBrandID option').removeAttr('selected');
+                $("#txtBrandID > [value=" + brandID + "]").attr("selected", "true");
+
+                $.ajax({
+                    url: '/Admin/Products/Filtter',
+                    dataType: "json",
+                    type: "GET",
+                    data: {
+                        CatID: $('#txtCatID').val(),
+                        BrandID: brandID
+                    },
+                    async: true,
+                    success: function (results) {
+                        if (results.status == "success") {
+                            window.location.href = results.redirectUrl;
+                        }
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+
+            $("#keyword").keyup(function () {
+                var strkeyword = $('#keyword').val();
+
+                if (strkeyword.trim() === '') {
+                    // Nếu từ khóa trống, thực hiện AJAX để lấy lại danh sách sản phẩm
+                    $.ajax({
+                        url: '/Admin/Search/FindProduct/',
+                        dataType: "html",
+                        type: "POST",
+                        data: { keyword: '' },
+                        async: true,
+                        success: function (results) {
+                            $("#loader").hide();
+                            $("#records-table").html("");
+                            $("#records-table").html(results);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log('Error:', errorThrown);
+                            alert('Error searching for products.');
+                        }
+                    });
+                } else {
+                    // Ngược lại, thực hiện tìm kiếm bình thường
+                    $.ajax({
+                        url: '/Admin/Search/FindProduct/',
+                        dataType: "html",   
+                        type: "POST",
+                        data: { keyword: strkeyword },
+                        async: true,
+                        success: function (results) {
+                            $("#loader").hide();
+                            $("#records-table").html("");
+                            $("#records-table").html(results);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            console.log('Error:', errorThrown);
+                            alert('Error searching for products.');
+                        }
+                    });
+                }
+            });
+
+
+        });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model Shopping.Models.OrderModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Chỉnh sửa trạng thái đơn hàng</h1>
+
+<div class="col-md-9">
+    <form asp-controller="Orders" asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="OrderDate" />
+        <input type="hidden" asp-for="OrderCode" />
+        <input type="hidden" asp-for="Deleted" />
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="AddressId" />
+
+
+
+        <div class="form-group">
+            <label>Mã đơn hàng</label>
+            <input asp-for="OrderCode" class="form-control" disabled/>
+
+        </div>
+
+        <div class="form-group">
+            <label>Ngày đặt</label>
+            <input asp-for="OrderDate" class="form-control" disabled/>   
+        </div>
+        <div class="form-group">
+            <label>Khách hàng</label>
+            <input asp-for="User.UserName" class="form-control" disabled/>
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input asp-for="Address.AddressOrder" class="form-control" disabled/>
+        </div>
+
+
+        <div class="form-group">
+            <label>Trạng thái</label>
+            <select asp-for="TransactStatusId" class="custom-select" style="min-width:180px" asp-items="@ViewBag.TransactStatusId">
+
+                <option value="" disabled selected>Chọn trạng thái</option>
+
+            </select>
+            <span asp-validation-for="TransactStatusId" class="text-danger"></span>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+    <a class="btn btn-primary" asp-action="Index">
+        <i class="fa fa-backward" style="font-size:24px;">
+            Back to List
+        </i>
+    </a>
+</div>

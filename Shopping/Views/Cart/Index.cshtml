@@ -1,0 +1,98 @@
+﻿@using Shopping.Models.ViewModels
+@model CartItemViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="_Notifycation" />
+
+<br />
+<br />
+
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+
+            @if (Model.CartItems.Count > 0)
+            {
+               
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Products</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <h5>@item.Name</h5>
+                                        </td>
+                                        <td>
+                                            <img src="~/images/products/@item.Thumb" width="100px" height="100px" />
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            @item.Price.Value.ToString("#,##0")
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="">
+                                                    <a class="btn btn-default btn-sm" asp-action="Decrease" asp-controller="Cart" asp-route-id="@item.Id"> - </a>
+
+                                                    <input class="btn btn-sm btn-default" type="text" value="@item.Quantity" style="width: 20%;">
+                                                    <a class="btn btn-default btn-sm" asp-action="Increase" asp-controller="Cart" asp-route-id="@item.Id"> + </a>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                            @Model.CartItems.Where(x => x.Id == item.Id).Sum(x => x.Quantity * x.Price).Value.ToString("#,##0")
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <a asp-action="Remove" asp-controller="Cart" asp-route-id="@item.Id">
+                                                <span class="icon_close"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6 ml-auto">
+                    <div class="shoping__checkout">
+                        <h5>Cart Total</h5>
+                        <ul>
+                            <li>Total <span>@Model.GrandTotal.Value.ToString("#,##0") VND</span></li>
+                        </ul>
+                        <a asp-area="" asp-controller="Checkout" asp-action="Index" class="primary-btn">Tiếp tục thanh toán</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-12 text-center">
+                    <h2>Chưa có sản phẩm trong giỏ hàng</h2>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->
+
+<style>
+    .shoping__cart__table table tbody tr td.shoping__cart__item {
+        width: 330px;
+        text-align: left;
+    }
+</style>

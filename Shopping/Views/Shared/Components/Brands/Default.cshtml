@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BrandModel>
+
+    <div class="hero__categories" tabindex="0">
+        <div class="hero__categories__all">
+            <span>Thương hiệu</span>
+        </div>
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li><a asp-action="Index" asp-controller="Brand" asp-area="" asp-route-Alias="@item.Alias">@item.Name</a></li>
+
+            }
+            
+        </ul>
+    </div>
